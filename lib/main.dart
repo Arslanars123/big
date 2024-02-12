@@ -4,6 +4,7 @@ import 'package:big_game/screens/category_screen/category_screen.dart';
 import 'package:big_game/screens/menu_box.dart';
 import 'package:big_game/widget/zoom_drawer_widget/zoom_menu_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'auth_model/providers/auth_model.dart';
@@ -13,6 +14,11 @@ import 'create_pool/pool_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(MyApp());
 }
 
@@ -31,7 +37,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ZoomDwrMenu(),
+        home: LoginScreen(),
       ),
     );
   }

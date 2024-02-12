@@ -32,7 +32,7 @@ class SignInProvider extends ChangeNotifier {
       String email, String password, BuildContext context) async {
     // Define the endpoint URL
     String url =
-        'https://game-izq04ir1y-mughees110s-projects.vercel.app/api/login';
+        'https://game-ten-self.vercel.app/api/login';
 
     if (!_isEmailValid(email)) {
       Fluttertoast.showToast(

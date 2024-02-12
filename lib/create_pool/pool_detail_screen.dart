@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../widget/zoom_drawer_widget/zoom_menu_screen.dart';
 
@@ -419,9 +420,44 @@ class _PoolDetailScreenState extends State<PoolDetailScreen> {
       if (response.statusCode != 200) {
         throw Exception('No internet connection');
       }
+    List<String> dateParts = _selectedDate.toString().split(":");
 
-      // Split the date string based on colons ":"
-      List<String> dateParts = _selectedDate.toString().split(":");
+    // Extract year, month, and day from the parts
+    String year = dateParts[0];
+    String month = dateParts[1];
+    String day = dateParts[2];
+    String formattedDate = "$year-$month-$day";
+      print(formattedDate);
+
+
+    // Define the format of the string
+    DateFormat dateFormat = DateFormat('yyyy-MM-dd HH-mm-ss.SSS');
+
+    // Parse the string into a DateTime object
+    DateTime dateTime = dateFormat.parse(formattedDate);
+
+   String selectDateChange= dateTime.year.toString()+"-"+dateTime.month.toString()+"-"+dateTime.day.toString();
+    List<String> datePartsClose = _selectedCloseDate.toString().split(":");
+
+    // Extract year, month, and day from the parts
+    String yearClose = dateParts[0];
+    String monthClose = dateParts[1];
+    String dayClose = dateParts[2];
+    String formattedDateClose = "$yearClose-$monthClose-$dayClose";
+    print(formattedDateClose);
+
+
+    // Define the format of the string
+    DateFormat dateFormatClose = DateFormat('yyyy-MM-dd HH-mm-ss.SSS');
+
+    // Parse the string into a DateTime object
+    DateTime dateTimeClose = dateFormat.parse(formattedDateClose);
+
+    String selectDateClose= dateTimeClose.year.toString()+"-"+dateTimeClose.month.toString()+"-"+dateTimeClose.day.toString();
+
+
+    // Split the date string based on colons ":"
+    /*  List<String> dateParts = _selectedDate.toString().split(":");
 
       // Extract year, month, and day from the parts
       String year = dateParts[0];
@@ -431,8 +467,9 @@ class _PoolDetailScreenState extends State<PoolDetailScreen> {
       // Concatenate the year, month, and day with hyphens "-"
       String formattedDate = "$year-$month-$day";
 
+
       // Define the URL
-      var url = Uri.parse('https://game-izq04ir1y-mughees110s-projects.vercel.app/api/create-pool');
+      var url = Uri.parse('https://game-ten-self.vercel.app/api/create-pool');
 
       // Define the data to be sent in the request body
       var data = {
@@ -459,8 +496,37 @@ class _PoolDetailScreenState extends State<PoolDetailScreen> {
         },
         body: jsonEncode(data), // Convert the data to JSON format
       );
+var decode = jsonDecode(dataResponse.body);
+print(decode);*/
+    var url = Uri.parse('https://game-ten-self.vercel.app/api/create-pool');
 
-      // Check the response status
+    // Define the data to be sent in the request body
+    var data = {
+      "poolName": groupName.text,
+      "perSquare": numberOfShuffles.text,
+      "date": selectDateChange.toString(), // Example date, you should replace it with the actual date
+      "optionalTime": _selectedTime.toString(),
+      "firstQuarter": firstQuarterController.text,
+      "halfQuarter": halfTimeQuarterController.text,
+      "thirdQuarter": thirdQuarterController.text,
+      "finalScope": finalScoreController.text,
+      "numberOfShufeles": numberofQuarters.text,
+      "team1Name": widget.TeamOneName,
+      "team2Name": widget.TeamTwoName,
+      "team1Color": widget.TeamOneColor.toString(),
+      "team2Color": widget.TeamTwoColor.toString(),
+    };
+
+    // Send the POST request
+    var dataResponse = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json', // Set the content type of the request
+      },
+      body: jsonEncode(data), // Convert the data to JSON format
+    );
+    var decode = jsonDecode(dataResponse.body);
+    print(decode);
       if (response.statusCode == 200) {
         print('POST request successful');
         Fluttertoast.showToast(
@@ -498,8 +564,8 @@ print(loader);
         firstQuarterController.text.isEmpty ||
         halfTimeQuarterController.text.isEmpty ||
         thirdQuarterController.text.isEmpty ||
-        finalScoreController.text.isEmpty ||
-        !isChecked
+        finalScoreController.text.isEmpty
+
     ) {
       setState(() {
         loader= false;

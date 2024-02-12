@@ -37,7 +37,7 @@ class RegistrationProvider extends ChangeNotifier {
       return; // Stop further execution if the email is invalid
     }
 
-    String url = 'https://game-izq04ir1y-mughees110s-projects.vercel.app/api/register';
+    String url = 'https://game-ten-self.vercel.app/api/register';
 
     // Define the request body
     Map<String, dynamic> requestBody = {
